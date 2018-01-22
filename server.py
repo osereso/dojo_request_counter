@@ -14,19 +14,20 @@ def read_file(file_name):
 def write_file(file_name, data):
     with open(file_name, 'w') as f:
         for item in data.items():
-            f.write(item[0] + ': ' + item[1] + '\n')
+            f.write(item[0] + ': ' + str(item[1]) + '\n')
 
 
 @app.route('/')
 def index():
-    global counts
+    counts = read_file('request_counts.txt')
     return str(counts)
 
 
 @app.route('/request-counter')
 def increment():
-    global counts
+    counts = read_file('request_counts.txt')
     counts['GET'] += 1
+    write_file('request_counts.txt', counts)
     return redirect('/')
 
 
